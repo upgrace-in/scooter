@@ -123,16 +123,6 @@ const Home = () => {
               >
                 ENTER BITCHES
               </button>
-              <button
-                id="mint_btn"
-                style={{'display':'none'}}
-                className={clsx({
-                  [style.mintBtnLoading]: !enterPage,
-                  [style.mintBtn]: enterPage,
-                })}
-              >
-                MINT HERE BITCHES
-              </button>
 
               {enterPage && (
                 <>
@@ -155,7 +145,7 @@ const Home = () => {
                         zIndex: 10,
                       }}
                     >
-                      <a href="https://twitter.com/BBscooterNFT?t=jh_3C55aLUYC-knxNY7iXA&s=09">
+                      <a href="https://twitter.com/BBscooterNFT?s=09">
                         <img
                           width="100%"
                           style={{ zIndex: 100 }}
@@ -164,7 +154,7 @@ const Home = () => {
                       </a>
                     </div>
                     <div style={{ zIndex: 10, margin: "0 10px" }}>
-                      <a href="https://discord.gg/scootergang">
+                      <a href="https://opensea.io/collection/bad-bitches-on-a-scooter-v2">
                         <img
                           style={{ borderRadius: 50 }}
                           className={style.navbarImg}
@@ -234,6 +224,25 @@ const Home = () => {
                                 Ohhhhh and if u mint you mgt just get a scooter
                                 bitch!
                               </p>
+                              <div id="mint_box">
+                                <div id="count_box" style={{ display: 'none' }}>
+                                  <button className="btn btn2" id="decrease_btn">
+                                    -
+                                  </button>
+                                  <button className="btn btn2" id="mint_count">
+                                    0
+                                  </button>
+                                  <button className="btn btn2" id="increase_btn">
+                                    +
+                                  </button>
+                                </div>
+
+                                <button
+                                  id="mint_btn" className="btn"
+                                >
+                                  MINT HERE BITCHES
+                                </button>
+                              </div>
                             </footer>
                             <div id="Follow">
                               <span>#bitchfollowbitch</span>

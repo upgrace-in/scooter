@@ -35,55 +35,20 @@ function init() {
 
 }
 
-async function update_total_supply() {
-    await contract.methods.totalSupply().call().then(function (res, err) {
-        if (res > 1000) {
-            console.log(res)
-            $('#mint_btn').click(async () => {
-                await mint_now();
-            })
-        }
-    });
-}
-
-async function mint_now() {
-    var mint_count = prompt("Enter Mint Count (max. 5)");
-    if ((0 < mint_count) && (mint_count < 6)) {
-        var final_wei_Val = (mint_costs * mint_count * Math.pow(10, 18)).toFixedSpecial(0)
-        await contract.methods.mint(String(mint_count))
-            .send({
-                from: user_address,
-                value: final_wei_Val
-            }).then(function (res, err) {
-                if (res) {
-                    alert("MINTED SUCCESSFULLY!")
-                } else {
-                    alert("MINTING FAILED!")
-                }
-            });
-    } else {
-        alert("Count should be under 5, Please try again!")
-    }
-}
-
-async function mint_presale() {
-    var mint_count = prompt("Enter Mint Count (max. 5)");
-    if ((0 < mint_count) && (mint_count < 6)) {
-        var final_wei_Val = (0 * Math.pow(10, 18)).toFixedSpecial(0)
-        await contract.methods.mint(String(mint_count))
-            .send({
-                from: user_address,
-                value: final_wei_Val
-            }).then(function (res, err) {
-                if (res) {
-                    alert("MINTED SUCCESSFULLY!")
-                } else {
-                    alert("MINTING FAILED!")
-                }
-            });
-    } else {
-        alert("Count should be under 1-5, Please try again!")
-    }
+async function mint_now(total_amt, mint_count) {
+    var final_wei_Val = (total_amt * Math.pow(10, 18)).toFixedSpecial(0)
+    await contract.methods.mint(String(mint_count))
+        .send({
+            from: user_address,
+            value: final_wei_Val,
+            gasLimit: "28500"
+        }).then(function (res, err) {
+            if (res) {
+                alert("MINTED SUCCESSFULLY!")
+            } else {
+                alert("MINTING FAILED!")
+            }
+        });
 }
 
 async function switch_network(chainId) {
@@ -102,14 +67,13 @@ function check() {
             web3.eth.net.getId().then(async (netId) => {
                 if (netId === chainId) {
 
+                    $('#count_box').show()
+
                     $('#mint_btn').unbind('click');
 
                     $('#mint_btn').click(async () => {
-                        await mint_presale();
+                        await mint_now(mint_costs * mint_count, mint_count);
                     })
-
-                    // total supply
-                    await update_total_supply();
 
                 } else {
                     switch (chainId) {
@@ -155,6 +119,7 @@ async function connectweb3() {
 }
 
 function set_value(type) {
+
     if (type == 'increase') {
         if (mint_count != 5) {
             mint_count++;
@@ -164,15 +129,12 @@ function set_value(type) {
             mint_count--;
         }
     }
-    final_cost = mint_costs * mint_count
     $('#mint_count').html(mint_count);
 }
 
 
 $(document).ready(() => {
     init();
-
-    $('#mint_btn').show()
 
     $('#mint_btn').click(async () => { await connectweb3(); })
 
