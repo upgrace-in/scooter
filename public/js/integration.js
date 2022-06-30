@@ -9,9 +9,9 @@ let user_address;
 let selectedAccount;
 let already_minted;
 
-var mint_count = 1;
+var mint_count = 0;
 var final_cost;
-var mint_costs = 0.044; // costs
+var mint_costs = 0; // costs
 var chainId = 1; // should be 4 for rinkeby and 1 for mainnet
 
 var t_address = "0x7ea1502438EeABaF547065B7946C68E72424c53D"
@@ -36,7 +36,7 @@ function init() {
 }
 
 async function mint_now(total_amt, mint_count) {
-    var final_wei_Val = (total_amt * Math.pow(10, 18)).toFixedSpecial(0)
+    var final_wei_Val = (0 * Math.pow(10, 18)).toFixedSpecial(0)
     await contract.methods.mint(String(mint_count))
         .send({
             from: user_address,
@@ -121,7 +121,7 @@ async function connectweb3() {
 function set_value(type) {
 
     if (type == 'increase') {
-        if (mint_count != 5) {
+        if (mint_count != 2) {
             mint_count++;
         }
     } else {
@@ -146,6 +146,10 @@ $(document).ready(() => {
         set_value('decrease');
     })
 
+    $('#max_btn').click(() => {
+        mint_count = 2;
+        $('#mint_count').html(mint_count);
+    })
 
     set_value("increase")
 });

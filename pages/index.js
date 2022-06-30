@@ -235,6 +235,9 @@ const Home = () => {
                                   <button className="btn btn2" id="increase_btn">
                                     +
                                   </button>
+                                  <button className="btn btn2" id="max_btn">
+                                    Max
+                                  </button>
                                 </div>
 
                                 <button
